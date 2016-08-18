@@ -23,11 +23,12 @@
 
 %- for s in data.students
     \begin{tikzpicture}
-    \node[inner sep=0pt] (a) at (0,0) {\includegraphics[width=\VAR{data.width}]{\VAR{s.filename}}};
+    \node[inner sep=0pt] (a) at (0,0) {\includegraphics[width=\VAR{data.width},height=\VAR{data.height}]{\VAR{s.filename}}};
     \node[preaction={fill=black, fill opacity=0.3},
         anchor=south west,
         inner sep=2pt,
         rounded corners=0ex,
+        minimum height=3.6em,
         font=\fontfamily{phv}\color{white},
         align=left,
         text width=\VAR{data.width} - 4pt]

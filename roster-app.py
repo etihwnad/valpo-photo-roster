@@ -114,11 +114,13 @@ def renderpdf(title, orient, columns, csvname,
         w = 7.5
 
     width = '%fin' % (w / columns)
+    height = '%fin' % ((w/columns)*4.0/3.0) # force aspect ratio
 
     data = {'title': title,
             'orient': orient,
             'columns': columns,
             'width': width,
+            'height': height,
             }
 
     print csvname
