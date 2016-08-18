@@ -24,7 +24,11 @@ app = Flask(__name__)
 app.secret_key = 'foo'
 csrf.CsrfProtect(app)
 
-app.debug = True
+KEEP_FILES = True
+
+JPG_CACHE = os.path.join(os.getcwd(), 'cache')
+
+# app.debug = True
 
 
 class RosterForm(Form):
@@ -47,23 +51,24 @@ def hello_world():
 def roster():
     form = RosterForm()
 
-    print 'here'
     if form.validate_on_submit():
-        # print form.title.data
-        # print form.orient.data
-        # print form.columns.data
-        # print form.csvfile.data
-        csvname = 'tmp/' + secure_filename(form.csvfile.data.filename)
+        tmpdir = mkdtemp(prefix='photo-roster_')
+        print tmpdir
+
+        csvname = os.path.join(tmpdir, secure_filename(form.csvfile.data.filename))
         form.csvfile.data.save(csvname)
         pdf = renderpdf(title=form.title.data,
                         orient=form.orient.data,
                         columns=form.columns.data,
-                        csvname=csvname)
+                        csvname=csvname,
+                        tmpdir=tmpdir)
 
         filename = form.title.data.replace(' ', '_')
         doc = make_response(pdf)
         doc.headers['Content-Disposition'] = "attachment; filename=%s.pdf" % filename
         response = doc
+        if not KEEP_FILES:
+            rmtree(tmpdir)
     else:
         response = render_template('roster.html', form=form)
 
@@ -100,20 +105,12 @@ texenv.filters['escape_tex'] = escape_tex
 
 
 def renderpdf(title, orient, columns, csvname,
-              CACHE='cache'):
-
-    # pwd = os.path.realpath(os.path.curdir)
-    # csvpath = pwd + '/' + csvname
-    tmpdir = mkdtemp(prefix='photo-roster_')
-    print tmpdir
+              CACHE=JPG_CACHE,
+              tmpdir='tmp'):
 
     if orient == 'landscape':
-        if columns is None:
-            columns = 6
         w = 10.0
     elif orient == 'portrait':
-        if columns is None:
-            columns = 5
         w = 7.5
 
     width = '%fin' % (w / columns)
@@ -149,7 +146,7 @@ def renderpdf(title, orient, columns, csvname,
         sid = row['Student ID']
 
         jpgname = sid + '.jpg'
-        savename = '/'.join([pwd, CACHE, jpgname])
+        savename = os.path.join(pwd, CACHE, jpgname)
         if not os.path.exists(savename):
             url = picUrl % sid
             r = requests.get(url, auth=(BB_USER, BB_PASS))
@@ -163,7 +160,7 @@ def renderpdf(title, orient, columns, csvname,
                     outjpg.write(jpgdata)
             else:
                 #bad file, sub with generic image
-                savename = '/'.join([pwd, CACHE, 'unknown.png'])
+                savename = os.path.join(pwd, CACHE, 'unknown.png')
 
 
         student = {}
@@ -189,7 +186,6 @@ def renderpdf(title, orient, columns, csvname,
     with open(pdfname, 'r') as pdffile:
         pdf = pdffile.read()
 
-    #rmtree(tmpdir)
     return pdf
 
 
