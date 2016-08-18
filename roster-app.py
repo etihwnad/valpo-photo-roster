@@ -42,12 +42,8 @@ class RosterForm(Form):
     csvfile = FileField('CSV file', [FileRequired()])
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello world!'
 
-
-@app.route('/roster', methods=['GET', 'POST'])
+@app.route('/photoroster', methods=['GET', 'POST'])
 def roster():
     form = RosterForm()
 
@@ -191,4 +187,6 @@ def renderpdf(title, orient, columns, csvname,
     return pdf
 
 
+if __name__ == '__main__':
+    app.run()
 
