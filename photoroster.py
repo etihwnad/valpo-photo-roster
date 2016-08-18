@@ -38,7 +38,7 @@ class RosterForm(Form):
                                  ('portrait', 'Portrait')],
                         default='landscape')
     columns = IntegerField('# Columns',
-                           [NumberRange(3, 10, 'Between 3 and 10')])
+                           [NumberRange(3, 10, 'Must be between 3 and 10')])
     csvfile = FileField('CSV file', [FileRequired()])
 
 
