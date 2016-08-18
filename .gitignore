@@ -1,2 +1,3 @@
 cache/*.jpg
 .*.un~
+*.pyc

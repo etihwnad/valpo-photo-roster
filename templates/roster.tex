@@ -1,0 +1,45 @@
+
+\documentclass[letterpaper,\VAR{data.orient}]{article}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{tikz}
+
+\setlength{\topmargin}{-0.5in}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\huge \bf \VAR{data.title}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+\renewcommand{\arraystretch}{0.0}
+\setlength{\tabcolsep}{0em}
+
+\begin{longtable}{\VAR{data.columns * 'l'}}
+
+%- for s in data.students
+    \begin{tikzpicture}
+    \node[inner sep=0pt] (a) at (0,0) {\includegraphics[width=\VAR{data.width}]{\VAR{s.filename}}};
+    \node[preaction={fill=black, fill opacity=0.3},
+        anchor=south west,
+        inner sep=2pt,
+        rounded corners=0ex,
+        font=\fontfamily{phv}\color{white},
+        align=left,
+        text width=\VAR{data.width} - 4pt]
+            (b) at (a.south west) { \LARGE \VAR{s.first} \\ \Large \VAR{s.last} };
+    \end{tikzpicture} \BLOCK{if loop.index % data.columns ==  0 } \\ \BLOCK{else} & \BLOCK{endif}
+%- endfor
+
+\end{longtable}
+
+\end{document}
+
+
+
+
+
+
+
