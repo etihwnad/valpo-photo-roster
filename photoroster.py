@@ -44,7 +44,7 @@ class RosterForm(Form):
 
 
 @app.route('/photoroster', methods=['GET', 'POST'])
-def roster():
+def photoroster():
     form = RosterForm()
 
     if form.validate_on_submit():
