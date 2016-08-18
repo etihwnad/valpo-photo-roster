@@ -26,7 +26,7 @@ csrf.CsrfProtect(app)
 
 KEEP_FILES = True
 
-JPG_CACHE = os.path.join(os.getcwd(), 'cache')
+JPG_CACHE = os.environ.get('PHOTOROSTER_JPG_CACHE', os.path.join(os.getcwd(), 'cache')
 
 # app.debug = True
 
