@@ -127,8 +127,13 @@ def renderpdf(title, orient, columns, csvname,
 
     # the first 3 bytes of Blackboard CSV files are a
     # UTF-8 byte-order-mark "0xEF BB BF"
-    # HACK: just throw them out!
-    csvfile.read(3)
+    # HACK: just throw them out iff they exist
+    if csvfile.read(3) == '\xEF\xBB\xBF':
+        print 'found UTF-8 BOM, skipping'
+    else:
+        csvfile.seek(0)
+        print 'no BOM, rewinding'
+
     reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
 
     picUrl = 'https://www.intra.valpo.edu/bb_pics/pics/auto/pics.php/%s'
