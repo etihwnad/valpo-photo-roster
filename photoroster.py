@@ -24,8 +24,7 @@ app = Flask(__name__)
 app.secret_key = 'foo'
 csrf.CsrfProtect(app)
 
-KEEP_FILES = True
-
+KEEP_FILES = 'PHOTOROSTER_KEEP_FILES' in os.environ
 JPG_CACHE = os.environ.get('PHOTOROSTER_JPG_CACHE', os.path.join(os.getcwd(), 'cache'))
 
 # app.debug = True
