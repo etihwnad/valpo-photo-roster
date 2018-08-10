@@ -10,7 +10,7 @@ import requests
 
 from flask import Flask, request, render_template, make_response
 
-from flask_wtf import Form, csrf
+from flask_wtf import FlaskForm, csrf
 from flask_wtf.file import FileField, FileRequired
 
 from wtforms import IntegerField, RadioField, StringField
@@ -30,7 +30,7 @@ JPG_CACHE = os.environ.get('PHOTOROSTER_JPG_CACHE', os.path.join(os.getcwd(), 'c
 # app.debug = True
 
 
-class RosterForm(Form):
+class RosterForm(FlaskForm):
     title = StringField('Title', [DataRequired()])
     orient = RadioField('Orientation',
                         choices=[('landscape', 'Landscape'),
