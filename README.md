@@ -1,5 +1,13 @@
 Flask app to generate photo rosters.
 
+# Dependencies
+* python3
+* flask
+* flask-WTF
+* rubber for compiling latex
+
+`sudo apt install python3-flask python3-flaskext.wtf rubber`
+
 
 
 ```bash

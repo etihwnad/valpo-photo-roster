@@ -22,7 +22,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 app.secret_key = 'foo'
-csrf.CsrfProtect(app)
+csrf.CSRFProtect(app)
 
 KEEP_FILES = 'PHOTOROSTER_KEEP_FILES' in os.environ
 JPG_CACHE = os.environ.get('PHOTOROSTER_JPG_CACHE', os.path.join(os.getcwd(), 'cache'))
@@ -48,7 +48,7 @@ def photoroster():
 
     if form.validate_on_submit():
         tmpdir = mkdtemp(prefix='photo-roster_')
-        print tmpdir
+        print(tmpdir)
 
         csvname = os.path.join(tmpdir, secure_filename(form.csvfile.data.filename))
         form.csvfile.data.save(csvname)
@@ -118,7 +118,7 @@ def renderpdf(title, orient, columns, csvname,
             'height': height,
             }
 
-    print csvname
+    print(csvname)
     if sys.version_info[0] < 3:
         csvfile = open(csvname, 'rU')
     else:
@@ -128,10 +128,10 @@ def renderpdf(title, orient, columns, csvname,
     # UTF-8 byte-order-mark "0xEF BB BF"
     # HACK: just throw them out iff they exist
     if csvfile.read(3) == '\xEF\xBB\xBF':
-        print 'found UTF-8 BOM, skipping'
+        print('found UTF-8 BOM, skipping')
     else:
         csvfile.seek(0)
-        print 'no BOM, rewinding'
+        print('no BOM, rewinding')
 
     reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
 
@@ -153,10 +153,10 @@ def renderpdf(title, orient, columns, csvname,
             url = picUrl % sid
             r = requests.get(url, auth=(BB_USER, BB_PASS))
             if r.status_code != 200:
-                print('URL: %s' % url)
+                print(('URL: %s' % url))
                 print('Something went wrong retrieving the image')
             jpgdata = r.content
-            print 'jpg len:', len(jpgdata)
+            print('jpg len:', len(jpgdata))
             if len(jpgdata) > 10000:
                 with open(savename, 'wb') as outjpg:
                     outjpg.write(jpgdata)
@@ -185,7 +185,7 @@ def renderpdf(title, orient, columns, csvname,
     os.chdir(pwd)
 
     pdfname = tmpdir + '/roster.pdf'
-    with open(pdfname, 'r') as pdffile:
+    with open(pdfname, 'rb') as pdffile:
         pdf = pdffile.read()
 
     return pdf
