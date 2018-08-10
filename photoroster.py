@@ -42,7 +42,7 @@ class RosterForm(Form):
 
 
 
-@app.route('/photoroster', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def photoroster():
     form = RosterForm()
 
