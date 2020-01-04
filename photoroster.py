@@ -5,6 +5,7 @@ import os
 import sys
 from shutil import rmtree
 from tempfile import mkdtemp
+import time
 
 import requests
 
@@ -48,7 +49,9 @@ def photoroster():
     form = RosterForm()
 
     if form.validate_on_submit():
-        tmpdir = mkdtemp(prefix='photo-roster_')
+        # tmpdir = mkdtemp(prefix='photo-roster_')
+        tmpdir = '/tmp/photo-roster_%i' % (int(100*time.time()),)
+        os.mkdir(tmpdir, mode=0o777)
         print(tmpdir)
 
         csvname = os.path.join(tmpdir, secure_filename(form.csvfile.data.filename))
@@ -64,7 +67,8 @@ def photoroster():
         doc.headers['Content-Disposition'] = "attachment; filename=%s.pdf" % filename
         response = doc
         if not KEEP_FILES:
-            rmtree(tmpdir)
+            print('removing %s' % tmpdir)
+            # rmtree(tmpdir)
     else:
         response = render_template('roster.html', form=form)
 
@@ -152,9 +156,10 @@ def renderpdf(title, orient, columns, csvname,
         savename = os.path.join(pwd, CACHE, jpgname)
         if not os.path.exists(savename):
             url = picUrl % sid
-            r = requests.get(url, auth=(BB_USER, BB_PASS))
+            r = requests.get(url, auth=(BB_USER, BB_PASS), verify=False)
             if r.status_code != 200:
                 print(('URL: %s' % url))
+                print(r)
                 print('Something went wrong retrieving the image')
             jpgdata = r.content
             print('jpg len:', len(jpgdata))
