@@ -136,9 +136,13 @@ def renderpdf(title, orient, columns, csvname,
 
     reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
 
-    picUrl = 'https://www.intra.valpo.edu/bb_pics/pics/auto/pics.php/%s'
+    picUrl = 'https://intra.valpo.edu/bb_pics/pics/auto/pics.php/%s'
     BB_USER = os.environ['BB_USER']
     BB_PASS = os.environ['BB_PASS']
+
+    session = requests.Session()
+    session.auth = (BB_USER, BB_PASS)
+    # session.verify = False
 
     pwd = os.getcwd()
     students = []
@@ -152,7 +156,7 @@ def renderpdf(title, orient, columns, csvname,
         savename = os.path.join(pwd, CACHE, jpgname)
         if not os.path.exists(savename):
             url = picUrl % sid
-            r = requests.get(url, auth=(BB_USER, BB_PASS))
+            r = session.get(url)
             if r.status_code != 200:
                 print(('URL: %s' % url))
                 print('Something went wrong retrieving the image')
