@@ -140,13 +140,12 @@ def renderpdf(title, orient, columns, csvname,
 
     reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
 
-    picUrl = 'https://intra.valpo.edu/bb_pics/pics/auto/pics.php/%s'
-    BB_USER = os.environ['BB_USER']
-    BB_PASS = os.environ['BB_PASS']
+    picUrl = 'https://apps.valpo.edu/photos/pics.php/%s'
+    headers = {
+        'Referer':'https://blackboard.valpo.edu/',
+    }
 
     session = requests.Session()
-    session.auth = (BB_USER, BB_PASS)
-    # session.verify = False
 
     pwd = os.getcwd()
     students = []
@@ -160,7 +159,7 @@ def renderpdf(title, orient, columns, csvname,
         savename = os.path.join(pwd, CACHE, jpgname)
         if not os.path.exists(savename):
             url = picUrl % sid
-            r = session.get(url)
+            r = session.get(url, headers=headers)
             if r.status_code != 200:
                 print(('URL: %s' % url))
                 print(r)

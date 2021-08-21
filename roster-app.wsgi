@@ -5,8 +5,6 @@ import os
 # THIS FILE SHOULD NOT BE READABLE BY OTHERS,
 # UPDATE THE FILE PERMISSIONS ACCORDINGLY
 #
-os.environ['BB_USER'] = 'USERNAME'
-os.environ['BB_PASS'] = 'PASSWORD'
 os.environ['PHOTOROSTER_JPG_CACHE'] = '/var/www/apps/valpo-photo-roster/cache'
 
 # uncomment to save inputs and temp files
