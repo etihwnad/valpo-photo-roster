@@ -34,12 +34,12 @@ JPG_CACHE = os.environ.get('PHOTOROSTER_JPG_CACHE', os.path.join(os.getcwd(), 'c
 class RosterForm(FlaskForm):
     title = StringField('Title', [DataRequired()])
     orient = RadioField('Orientation',
-                        choices=[('landscape', 'Landscape'),
-                                 ('portrait', 'Portrait')],
-                        default='landscape')
+                        choices=[('portrait', 'Portrait'),
+                                 ('landscape', 'Landscape')],
+                        default='portrait')
     columns = IntegerField('# Columns',
                            [NumberRange(3, 10, 'Must be between 3 and 10')],
-                           default=6)
+                           default=5)
     csvfile = FileField('CSV file', [FileRequired()])
 
 
