@@ -159,14 +159,16 @@ def renderpdf(title, orient, columns, csvname,
         savename = os.path.join(pwd, CACHE, jpgname)
         if not os.path.exists(savename):
             url = picUrl % sid
+            print(url)
             r = session.get(url, headers=headers)
             if r.status_code != 200:
                 print(('URL: %s' % url))
                 print(r)
                 print('Something went wrong retrieving the image')
             jpgdata = r.content
+            # TODO: better detection of good images
             print('jpg len:', len(jpgdata))
-            if len(jpgdata) > 10000:
+            if len(jpgdata) > 1000:
                 with open(savename, 'wb') as outjpg:
                     outjpg.write(jpgdata)
             else:
