@@ -56,21 +56,29 @@ def photoroster():
 
         csvname = os.path.join(tmpdir, secure_filename(form.csvfile.data.filename))
         form.csvfile.data.save(csvname)
-        pdf = renderpdf(title=form.title.data,
-                        orient=form.orient.data,
-                        columns=form.columns.data,
-                        csvname=csvname,
-                        tmpdir=tmpdir)
 
-        filename = form.title.data.replace(' ', '_')
-        doc = make_response(pdf)
-        doc.headers['Content-Disposition'] = "attachment; filename=%s.pdf" % filename
-        response = doc
+        error_message = ""
+
+        try:
+            pdf = renderpdf(title=form.title.data,
+                            orient=form.orient.data,
+                            columns=form.columns.data,
+                            csvname=csvname,
+                            tmpdir=tmpdir)
+            filename = form.title.data.replace(' ', '_')
+            doc = make_response(pdf)
+            doc.headers['Content-Disposition'] = "attachment; filename=%s.pdf" % filename
+            response = doc
+        except:
+            # give the user *some* feedback instead of crashing
+            error_message = """Something went wrong :(\n\nThis is typically an error in the input file.  Please check that it was exported with the correct setting."""
+            response = render_template('roster.html', form=form, errors=[error_message])
+
         if not KEEP_FILES:
             print('removing %s' % tmpdir)
             # rmtree(tmpdir)
     else:
-        response = render_template('roster.html', form=form)
+        response = render_template('roster.html', form=form, errors=None)
 
     return response
 

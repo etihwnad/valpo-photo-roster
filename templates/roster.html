@@ -53,6 +53,8 @@ The software which runs this site is available at <a href="https://github.com/et
     <p><input type=submit value=Submit>
 </form>
 
+<div>{% if errors %} <span class=errors> {% for error in errors %} <pre>{{ error }}<pre><br><br> {% endfor %} </span> {% endif %}</div>
+
 <h2>Tips</h2>
 <ul>
     <li>Portrait 4-cols fits 16/page</li>
