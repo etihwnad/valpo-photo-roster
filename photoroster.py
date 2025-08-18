@@ -141,16 +141,7 @@ def renderpdf(title, orient, columns, csvname,
     if sys.version_info[0] < 3:
         csvfile = open(csvname, 'rU')
     else:
-        csvfile = open(csvname, 'r', newline='', encoding='iso8859-1')
-
-    # the first 3 bytes of Blackboard CSV files are a
-    # UTF-8 byte-order-mark "0xEF BB BF"
-    # HACK: just throw them out iff they exist
-    if csvfile.read(3) == '\xEF\xBB\xBF':
-        print('found UTF-8 BOM, skipping')
-    else:
-        csvfile.seek(0)
-        print('no BOM, rewinding')
+        csvfile = open(csvname, 'r', newline='', encoding='utf-8')
 
     reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
 
@@ -163,14 +154,19 @@ def renderpdf(title, orient, columns, csvname,
 
     pwd = os.getcwd()
     students = []
-    for row in reader:
 
-        last = row['Last Name']
-        first = row['First Name']
-        sid = row['Student ID']
+    for row in reader:
+        # skip the first row, if present (which is by default)
+        if 'Points Possible' in row['Student']:
+            continue
+
+        lastfirst = row['Student']
+        last, first = lastfirst.split(',')
+        sid = row['SIS User ID']
 
         jpgname = sid + '.jpg'
         savename = os.path.join(pwd, CACHE, jpgname)
+        print(savename)
         if not os.path.exists(savename):
             url = picUrl % sid
             print(url)
@@ -197,6 +193,7 @@ def renderpdf(title, orient, columns, csvname,
         student['filename'] = savename
         students.append(student)
 
+    print(students)
     data['students'] = students
 
     texname = tmpdir + '/roster.tex'

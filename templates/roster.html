@@ -14,27 +14,22 @@
 <h2>Instructions</h2>
 
 <p>
-This form accepts a CSV file exported from the Blackboard gradebook.
-It uses only the "<b>First Name</b>, "<b>Last Name</b>", and "<b>Student ID</b>" columns from that export.
+This form accepts a CSV file exported from the Canvas gradebook.
+It uses only the "<b>Student</b> and "<b>SIS User ID</b>" columns from that export.
 Edit the CSV file as desired to use preferred names, etc.
+Names are interpreted as "Last, First" since the export doesn't provide separate columns.
 
-<p>Get to the download form by:
-Grade Center &rarr; Full Grade Center &rarr; Work Offline &rarr; Download.
+<p>Get to the Canvas download form by:
+Grades &rarr; (button) Export &rarr; Export Entire Gradebook.
 
-<p>Select the following options:
-
-<ul>
-    <li>User Information Only</li>
-    <li>Delimiter Type: Comma</li>
-    <li>Include Hidden Information: Yes  (to ensure "Student ID" is included)</li>
-</ul>
 
 <p>Thanks to Stewart Thomas for the nice transparent overlay formatting of the names with TikZ.</p>
 
 <p>Errors or comments?  Contact <a href="mailto:dan.white@valpo.edu?subject=photoroster: ">Dan White</a>.
 
-<p>
+<!--<p>
 The software which runs this site is available at <a href="https://github.com/etihwnad/valpo-photo-roster">https://github.com/etihwnad/valpo-photo-roster</a>.
+-->
 <p>
 <hr>
 
@@ -62,5 +57,12 @@ The software which runs this site is available at <a href="https://github.com/et
     <li>Landscape 6-cols fits 18/page</li>
     <li>Landscape 7-cols fits 28/page</li>
 </ul>
+
+This site does not use HTTP<b>S</b>, so your web browser may not allow
+downloading the file by default.
+Select "Keep" in your downloads tab to finish downloading.
+
+<img src="img/keep-download.png">
+
 </body>
 </html>
