@@ -106,12 +106,12 @@ def escape_tex(value):
     return newval
 
 texenv = app.create_jinja_environment()
-texenv.block_start_string = '\BLOCK{'
+texenv.block_start_string = r'\BLOCK{'
 texenv.block_end_string = '}'
 texenv.line_statement_prefix = '%-'
-texenv.variable_start_string = '\VAR{'
+texenv.variable_start_string = r'\VAR{'
 texenv.variable_end_string = '}'
-texenv.comment_start_string = '\%{'
+texenv.comment_start_string = r'\%{'
 texenv.comment_end_string = '}'
 texenv.line_comment_prefix = '%#'
 texenv.filters['escape_tex'] = escape_tex
