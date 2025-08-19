@@ -167,7 +167,9 @@ def renderpdf(title, orient, columns, csvname,
         jpgname = sid + '.jpg'
         savename = os.path.join(pwd, CACHE, jpgname)
         print(savename)
-        if not os.path.exists(savename):
+        if os.path.exists(savename):
+            print(f"{savename} already cached")
+        else:
             url = picUrl % sid
             print(url)
             r = session.get(url, headers=headers)
@@ -193,7 +195,6 @@ def renderpdf(title, orient, columns, csvname,
         student['filename'] = savename
         students.append(student)
 
-    print(students)
     data['students'] = students
 
     texname = tmpdir + '/roster.tex'
