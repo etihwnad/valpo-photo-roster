@@ -1,0 +1,21 @@
+[Unit]
+Description=Gunicorn for valpo-photo-roster
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/apps/valpo-photo-roster
+Environment=BB_USER=your_username
+Environment=BB_PASS=your_password
+#Environment=PHOTOROSTER_KEEP_FILES=true
+Environment=PHOTOROSTER_JPG_CACHE=/var/cache/photoroster
+ExecStart=/var/www/apps/valpo-photo-roster/venv/bin/gunicorn \
+	-w 4 -b 127.0.0.1:8100 \
+	--log-level debug --access-logfile - --error-logfile - \
+	photoroster:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
