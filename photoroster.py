@@ -82,7 +82,7 @@ def photoroster():
 
         if not KEEP_FILES:
             print('removing %s' % tmpdir)
-            # rmtree(tmpdir)
+            rmtree(tmpdir)
     else:
         response = render_template('roster.html', form=form, errors=None)
 
