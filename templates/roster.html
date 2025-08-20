@@ -75,7 +75,7 @@
 
 <p>This form accepts a CSV file exported from the Canvas gradebook.</p>
 
-<a href="/static/example.pdf">An example of the PDF it generates.</a>
+<a href="{{ url_for('static', filename='example.pdf') }}">An example of the PDF it generates.</a>
 
 <p>Get to the Canvas download form by:
 Grades &rarr; (button) Export &rarr; Export Entire Gradebook.</p>
@@ -106,7 +106,7 @@ Select "Keep" in your downloads tab to finish downloading.
 
 <br>
 
-<img src="/static/keep-download.png">
+<img src="{{ url_for('static', filename='keep-download.png') }}">
 
 <hr>
 

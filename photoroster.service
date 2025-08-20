@@ -11,6 +11,7 @@ Environment=BB_PASS=your_password
 #Environment=PHOTOROSTER_KEEP_FILES=true
 Environment=PHOTOROSTER_JPG_CACHE=/var/cache/photoroster
 ExecStart=/var/www/apps/valpo-photo-roster/venv/bin/gunicorn \
+	--env SCRIPT_NAME=/photoroster \
 	-w 4 -b 127.0.0.1:8100 \
 	--log-level debug --access-logfile - --error-logfile - \
 	photoroster:app
