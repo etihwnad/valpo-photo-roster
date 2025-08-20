@@ -1,0 +1,18 @@
+server {
+	listen 80;
+	server_name volta.valpo.edu;
+
+	location /photoroster {
+		return 301 /photoroster/;
+	}
+
+	location /photoroster/ {
+		proxy_pass http://127.0.0.1:8100/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+		proxy_redirect off;   # trailing slash
+		proxy_read_timeout 100s;   # LaTeX/PDF builds may take a while
+	}
+}
+
